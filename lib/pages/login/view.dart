@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iupc/pages/login/state.dart';
 
 import 'logic.dart';
 
@@ -26,12 +27,6 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    flex: 2,
-                    child: Image.asset(
-                      'assets/p1.png',
-                    ),
-                  ),
                   Flexible(
                     child: Image.asset(
                       'assets/p2.png',
@@ -60,108 +55,182 @@ class LoginPage extends StatelessWidget {
   Widget _generateInput({required state, logic}) {
     List<Widget> btnIconList = [
       const Icon(Icons.login),
-      const CircularProgressIndicator(),
+      CircularProgressIndicator(
+        color: state.colorScheme.onPrimary,
+      ),
       const Icon(Icons.done),
       const Icon(Icons.close)
     ];
     return Expanded(
       flex: 3,
       child: Padding(
-        padding: const EdgeInsets.only(left: 16,right: 16,bottom: 32),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
         child: Card(
           color: state.colorScheme.background,
-          // decoration: BoxDecoration(
-          //     color: state.colorScheme.background,
-          //     borderRadius: const BorderRadius.only(
-          //         topLeft: Radius.circular(32), topRight: Radius.circular(32))),
           child: Container(
             margin: const EdgeInsets.all(32),
             child: Form(
+              key: state.formKey,
               child: Flex(
                 mainAxisAlignment: MainAxisAlignment.center,
                 direction: Axis.vertical,
                 children: [
                   Flexible(
                     child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: TextFormField(
-                        key: state.accountKey,
-                        decoration: const InputDecoration(
-                          hintText: '请输入学号',
-                          labelText: '学号',
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return '请输入学号';
-                          } else if (value.length != 10) {
-                            return '请输入正确的学号';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: state.accountController,
+                          maxLength: 10,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.person),
+                            suffixIcon: IconButton(
+                                onPressed: logic.cleanAccountText,
+                                icon: const Icon(Icons.close)),
+                            hintText: '请输入学号',
+                            labelText: '学号',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return '请输入学号';
+                            } else if (value.length != 10 ||
+                                !GetUtils.isNum(value)) {
+                              return '请输入正确的学号';
+                            } else {
+                              return null;
+                            }
+                          },
+                        )),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      child: Obx(() {
+                        return TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          controller: state.passwordController,
+                          obscureText: !state.visibility.value,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: AnimatedSwitcher(
+                                transitionBuilder: (child, anim) {
+                                  return ScaleTransition(
+                                    scale: anim,
+                                    child: child,
+                                  );
+                                },
+                                duration: const Duration(milliseconds: 150),
+                                child: IconButton(
+                                    key: ValueKey(state.visibility.value),
+                                    onPressed: () {
+                                      logic.changeVisibility();
+                                    },
+                                    icon: state.visibility.value
+                                        ? const Icon(Icons.visibility_off)
+                                        : const Icon(Icons.visibility)),
+                              ),
+                              hintText: '请输入密码',
+                              labelText: '密码'),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return '请输入密码';
+                            } else {
+                              return null;
+                            }
+                          },
+                        );
+                      }),
                     ),
                   ),
                   Flexible(
                     child: Padding(
-                      padding:  EdgeInsets.all(16),
-                      child: TextFormField(
-                        key: state.passwordKey,
-                        obscureText: true,
-                        obscuringCharacter: '*',
-                        decoration: const InputDecoration(
-                            hintText: '请输入密码', labelText: '密码'),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return '请输入密码';
-                          } else if (value.length != 10) {
-                            return '请正确输入密码';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding:  EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Flex(
                         direction: Axis.horizontal,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Flexible(flex: 2,
+                          Flexible(
+                              flex: 2,
                               child: TextButton(
-                                  onPressed: () => {}, child: const Text('忘记密码'))),
+                                  onPressed: () => {},
+                                  child: const Text('忘记密码'))),
                           const Spacer(),
-                          Flexible(flex: 2,
+                          Flexible(
+                              flex: 2,
                               child: TextButton(
-                                  onPressed: () => {}, child: const Text('我是新生')))
+                                  onPressed: () => {},
+                                  child: const Text('我是新生')))
                         ],
                       ),
                     ),
                   ),
                   Flexible(
                     child: Padding(
-                      padding:  EdgeInsets.all(16),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.back();
+                      padding: const EdgeInsets.all(16),
+                      child: FilledButton(
+                        onPressed: () async {
                           // Validate will return true if the form is valid, or false if
                           // the form is invalid.
-                          if (state.accountKey.currentState!.validate() &&
-                              state.passwordKey.currentState()!.validate()) {
+                          if (state.formKey.currentState!.validate()) {
+                            state.verifyState.value = SendingBtnSate.sending;
+                            print(state.verifyState.value);
+                            Future.delayed(const Duration(seconds: 1), () {
+                              state.verifyState.value = SendingBtnSate.success;
+                              print(state.verifyState.value);
+
+                              Future.delayed(const Duration(seconds: 1), () {
+                                state.verifyState.value =
+                                    SendingBtnSate.sending;
+                                print(state.verifyState.value);
+
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  // Process data.
+                                  state.verifyState.value =
+                                      SendingBtnSate.failed;
+                                  print(state.verifyState.value);
+
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state.verifyState.value =
+                                        SendingBtnSate.normal;
+                                    Get.back();
+                                  });
+                                  // Process data.
+                                });
+                              });
+                            });
                             // Process data.
                           }
                         },
                         child: Flex(
                           mainAxisSize: MainAxisSize.min,
                           direction: Axis.horizontal,
-                          children: [const Spacer(),
-                            Flexible(flex: 3,
-                                child: btnIconList[state.verifyState.value]),
+                          children: [
                             const Spacer(),
-                            const Flexible(flex: 3,child: Text('登录')),Spacer()
+                            Flexible(
+                                flex: 3,
+                                child: Obx(() {
+                                  return AnimatedSwitcher(
+                                      transitionBuilder: (child, anim) {
+                                        return ScaleTransition(
+                                          scale: anim,
+                                          child: child,
+                                        );
+                                      },
+                                      duration:
+                                          const Duration(milliseconds: 150),
+                                      child: SizedBox(
+                                          width: 22,
+                                          height: 22,
+                                          key: ValueKey(
+                                              state.verifyState.value.value),
+                                          child: btnIconList[
+                                              state.verifyState.value.value]));
+                                })),
+                            const Spacer(),
+                            const Flexible(flex: 3, child: Text('登录')),
+                            const Spacer()
                           ],
                         ),
                       ),

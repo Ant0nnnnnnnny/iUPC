@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:iupc/constants.dart';
 
 import 'animator.dart';
 
 class NavigationTransition extends StatefulWidget {
   const NavigationTransition(
       {super.key,
-        required this.scaffoldKey,
-        required this.animationController,
-        required this.railAnimation,
-        required this.navigationRail,
-        required this.navigationBar,
-        required this.appBar,
-        required this.body});
+      required this.scaffoldKey,
+      required this.animationController,
+      required this.railAnimation,
+      required this.navigationRail,
+      required this.navigationBar,
+      required this.appBar,
+      required this.body});
 
   final GlobalKey<ScaffoldState> scaffoldKey;
   final AnimationController animationController;
@@ -51,23 +52,28 @@ class _NavigationTransitionState extends State<NavigationTransition> {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
+    return   MediaQuery.of(context).size.width > narrowScreenWidthThreshold
+        ?Scaffold(
       key: widget.scaffoldKey,
       appBar: widget.appBar,
       body: Row(
         children: <Widget>[
-          RailTransition(
-            animation: railAnimation,
-            backgroundColor: colorScheme.surface,
-            child: widget.navigationRail,
-          ),
+        widget.navigationRail,
+          widget.body,
+        ],
+      )
+    ):Scaffold(
+      key: widget.scaffoldKey,
+      appBar: widget.appBar,
+      body: Row(
+        children: <Widget>[
           widget.body,
         ],
       ),
       bottomNavigationBar: BarTransition(
-        animation: barAnimation,
-        backgroundColor: colorScheme.surface,
-        child: widget.navigationBar,
+          animation: barAnimation,
+          backgroundColor: colorScheme.surface,
+          child:  widget.navigationBar
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iupc/pages/login/state.dart';
-
 import 'logic.dart';
 
 class LoginPage extends StatelessWidget {
@@ -19,7 +18,8 @@ class LoginPage extends StatelessWidget {
         child: Flex(
           direction: Axis.vertical,
           children: [
-            const Spacer(),
+           const Spacer(),
+
             Flexible(
               flex: 1,
               child: Flex(
@@ -173,6 +173,7 @@ class LoginPage extends StatelessWidget {
                           // Validate will return true if the form is valid, or false if
                           // the form is invalid.
                           if (state.formKey.currentState!.validate()) {
+                            logic.login();
                             state.verifyState.value = SendingBtnSate.sending;
                             print(state.verifyState.value);
                             Future.delayed(const Duration(seconds: 1), () {

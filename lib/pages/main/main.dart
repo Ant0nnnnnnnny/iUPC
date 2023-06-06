@@ -9,7 +9,7 @@ class MainPage extends StatelessWidget {
     return Expanded(
       child: Center(
         child: ElevatedButton(onPressed: () => {
-          Get.to(LoginPage())
+          Get.to(()=>LoginPage())
         }, child: Text('登录')),
       ),
     );

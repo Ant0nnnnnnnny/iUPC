@@ -14,7 +14,8 @@ enum SendingBtnSate {
 class LoginState {
   late TextEditingController accountController;
   late TextEditingController passwordController;
-  late GlobalKey<FormState> formKey;
+
+   late GlobalKey<FormState> formKey;
 
   //0: 未发送
   //1: 发送中
@@ -28,7 +29,8 @@ class LoginState {
     ///Initialize variables
     accountController = TextEditingController();
     passwordController = TextEditingController();
-    formKey = GlobalKey<FormState>();
+
+       formKey = GlobalKey<FormState>();
     visibility = false.obs;
     colorScheme= ColorScheme.fromSeed(brightness: Get.find<GlobalState>().lightMode.value? Brightness.light:Brightness.dark,
         seedColor: Get.find<GlobalState>().themeSeed.value.color);

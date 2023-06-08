@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_qjs/flutter_qjs.dart';
-import 'package:iupc/utils/js_part.dart';
-class AccountEncode {
 
+class AccountEncode {
   static final AccountEncode _instance = AccountEncode._internal();
   final String jsonCode = """
 function getKeyBytes(key){
@@ -851,34 +851,29 @@ strDec: function (data,firstKey,secondKey,thirdKey){
 }})
 
 """;
-  late Map<dynamic, dynamic> functionList ;
-  final jsEngine = IsolateQjs(stackSize: 1024*1024);
+  late Map<dynamic, dynamic> functionList;
+  final jsEngine = IsolateQjs(stackSize: 1024 * 1024);
 
-   factory AccountEncode() {
+  factory AccountEncode() {
     return _instance;
   }
   // 私有构造函数
-  void evaluate()async {
+  void evaluate() async {
     functionList = await jsEngine.evaluate(jsonCode);
-    print('initialized');
+    debugPrint('initialized');
   }
-  AccountEncode._internal()  {
+
+  AccountEncode._internal() {
     evaluate();
-
-    try {
-      evaluate();
-    } catch (e) {
-    print(e.toString());
-    }
-
   }
   static Future<Object> encodeAccount(
       String number, String password, String verifiedCode) async {
-     // return AccountEncode._internal().jsEngine.evaluate('alert(hello)');
-    return await  _instance.functionList['strEnc']?.invoke([number+password+verifiedCode,"1","2","3"]);
+    // return AccountEncode._internal().jsEngine.evaluate('alert(hello)');
+    return await _instance.functionList['strEnc']
+        ?.invoke([number + password + verifiedCode, "1", "2", "3"]);
   }
-  static Future<String> decodeAccount(
-      String raw) async {
-    return await  _instance.functionList['strDec']?.invoke([raw,"1","2","3"]);
+
+  static Future<String> decodeAccount(String raw) async {
+    return await _instance.functionList['strDec']?.invoke([raw, "1", "2", "3"]);
   }
 }

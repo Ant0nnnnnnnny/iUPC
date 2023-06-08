@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^5.1.2
   flutter_qjs: ^0.3.7
+  beautiful_soup_dart: ^0.3.0
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
   flutter_test:

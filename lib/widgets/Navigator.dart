@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:iupc/constants.dart';
-
-import 'animator.dart';
-
 class NavigationTransition extends StatefulWidget {
   const NavigationTransition(
       {super.key,
       required this.scaffoldKey,
-      required this.animationController,
-      required this.railAnimation,
       required this.navigationRail,
       required this.navigationBar,
       required this.appBar,
+        required this.fab,
       required this.body});
-
+  final Widget fab;
   final GlobalKey<ScaffoldState> scaffoldKey;
-  final AnimationController animationController;
-  final CurvedAnimation railAnimation;
   final Widget navigationRail;
   final Widget navigationBar;
   final PreferredSizeWidget appBar;
@@ -27,30 +21,13 @@ class NavigationTransition extends StatefulWidget {
 }
 
 class _NavigationTransitionState extends State<NavigationTransition> {
-  late final AnimationController controller;
-  late final CurvedAnimation railAnimation;
-  late final ReverseAnimation barAnimation;
-  bool controllerInitialized = false;
-  bool showDivider = false;
-
   @override
   void initState() {
     super.initState();
-
-    controller = widget.animationController;
-    railAnimation = widget.railAnimation;
-
-    barAnimation = ReverseAnimation(
-      CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0.0, 0.5),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return   MediaQuery.of(context).size.width > narrowScreenWidthThreshold
         ?Scaffold(
@@ -63,6 +40,7 @@ class _NavigationTransitionState extends State<NavigationTransition> {
         ],
       )
     ):Scaffold(
+      floatingActionButton:widget.fab ,
       key: widget.scaffoldKey,
       appBar: widget.appBar,
       body: Row(
@@ -70,11 +48,7 @@ class _NavigationTransitionState extends State<NavigationTransition> {
           widget.body,
         ],
       ),
-      bottomNavigationBar: BarTransition(
-          animation: barAnimation,
-          backgroundColor: colorScheme.surface,
-          child:  widget.navigationBar
-      ),
+      bottomNavigationBar: widget.navigationBar
     );
   }
 }

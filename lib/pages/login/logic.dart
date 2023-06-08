@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iupc/utils/html_parser.dart';
+import 'package:iupc/utils/http.dart';
 
 import '../../utils/account_encode.dart';
 import 'state.dart';
@@ -11,14 +14,30 @@ class LoginLogic extends GetxController {
 
   void cleanAccountText() {
     state.accountController.clear();
+    state.passwordController.clear();
   }
 
   Future<void> login() async {
-    // print(AccountEncode.encodeAccount(state.accountController.value.text, state.passwordController.value.text, 'qhtlucifer').toString()
-    // );
-    Object a = await AccountEncode.encodeAccount('2009050223', 'Antony731065',
-        'LT-151535-iocAMs25kSrJbk4XPXKemNdZkHufab-cas');
-    print(a.toString());
-    print(await AccountEncode.decodeAccount(a.toString()));
+    String lt = await HtmlParser.getLt();
+    String desWord = (await AccountEncode.encodeAccount(
+            state.accountController.value.text,
+            state.passwordController.value.text,
+            lt))
+        .toString();
+    debugPrint(desWord);
+    Map<String, String> postData = {
+      "rsa": desWord,
+      "ul": state.accountController.value.text.length.toString(),
+      "pl": state.passwordController.value.text.length.toString(),
+      "lt": lt,
+      "execution":"e2s1",
+      "_eventId":"submit"
+    };
+    String dataStr = "";
+    postData.forEach((key, value) {
+      dataStr = "$dataStr$key=$value&";
+    });
+    print(dataStr.substring(0,dataStr.length-1));
+    debugPrint((await HttpUtils.loginAffairSys(dataStr.substring(0,dataStr.length-1))).toString());
   }
 }

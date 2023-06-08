@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../global_state.dart';
 enum SendingBtnSate {
   normal(0),
   sending(1),
@@ -22,7 +21,8 @@ class LoginState {
   //2: 发送成功
   //3: 发送失败
   var verifyState = SendingBtnSate.normal.obs;
-  late ColorScheme colorScheme ;
+
+  var isChecked = true.obs;
 
   late Rx<bool> visibility;
   LoginState() {
@@ -32,7 +32,5 @@ class LoginState {
 
        formKey = GlobalKey<FormState>();
     visibility = false.obs;
-    colorScheme= ColorScheme.fromSeed(brightness: Get.find<GlobalState>().lightMode.value? Brightness.light:Brightness.dark,
-        seedColor: Get.find<GlobalState>().themeSeed.value.color);
   }
 }

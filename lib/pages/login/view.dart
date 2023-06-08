@@ -13,13 +13,12 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      backgroundColor: state.colorScheme.secondaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       body: SafeArea(
         child: Flex(
           direction: Axis.vertical,
           children: [
-           const Spacer(),
-
+            const Spacer(),
             Flexible(
               flex: 1,
               child: Flex(
@@ -45,18 +44,18 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             ),
-            _generateInput(state: state, logic: logic)
+            _generateInput(state: state, logic: logic,context: context)
           ],
         ),
       ),
     );
   }
 
-  Widget _generateInput({required state, logic}) {
+  Widget _generateInput({required state, logic,context}) {
     List<Widget> btnIconList = [
       const Icon(Icons.login),
       CircularProgressIndicator(
-        color: state.colorScheme.onPrimary,
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
       const Icon(Icons.done),
       const Icon(Icons.close)
@@ -66,7 +65,7 @@ class LoginPage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
         child: Card(
-          color: state.colorScheme.background,
+          color: Theme.of(context).colorScheme.background,
           child: Container(
             margin: const EdgeInsets.all(32),
             child: Form(
@@ -166,6 +165,23 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Flexible(
+                      child: Flex(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    direction: Axis.horizontal,
+                    children: [
+                      Flexible(
+                        child: Obx(() {
+                          return Checkbox(
+                              value: state.isChecked.value,
+                              onChanged: (value) {
+                                state.isChecked.value = value!;
+                              });
+                        }),
+                      ),
+                      const Flexible(child: Text('自动登录'))
+                    ],
+                  )),
+                  Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: FilledButton(
@@ -175,21 +191,18 @@ class LoginPage extends StatelessWidget {
                           if (state.formKey.currentState!.validate()) {
                             logic.login();
                             state.verifyState.value = SendingBtnSate.sending;
-                            print(state.verifyState.value);
+
                             Future.delayed(const Duration(seconds: 1), () {
                               state.verifyState.value = SendingBtnSate.success;
-                              print(state.verifyState.value);
 
                               Future.delayed(const Duration(seconds: 1), () {
                                 state.verifyState.value =
                                     SendingBtnSate.sending;
-                                print(state.verifyState.value);
 
                                 Future.delayed(const Duration(seconds: 1), () {
                                   // Process data.
                                   state.verifyState.value =
                                       SendingBtnSate.failed;
-                                  print(state.verifyState.value);
 
                                   Future.delayed(const Duration(seconds: 1),
                                       () {

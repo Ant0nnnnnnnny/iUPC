@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iupc/pages/account/view.dart';
+import 'package:iupc/pages/class/view.dart';
 import 'package:iupc/pages/main/main.dart';
 
 import '../constants.dart';
@@ -26,73 +27,68 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-  bool controllerInitialized = false;
+class _HomePageState extends State<HomePage> {
   bool showMediumSizeLayout = false;
   bool showLargeSizeLayout = false;
 
   int screenIndex = ScreenSelected.home.value;
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late final AnimationController controller;
   late final CurvedAnimation railAnimation;
 
   @override
   initState() {
     super.initState();
-    controller = AnimationController(
-      duration: Duration(milliseconds: transitionLength.toInt() * 2),
-      value: 0,
-      vsync: this,
-    );
-    railAnimation = CurvedAnimation(
-      parent: controller,
-      curve: const Interval(0.5, 1.0),
-    );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: controller,
-        builder: (context, child) {
-      return NavigationTransition(
-        scaffoldKey: scaffoldKey,
-        animationController: controller,
-        railAnimation: railAnimation,
-        navigationRail: NavigationRail(
-          extended: showLargeSizeLayout,
-          destinations: navRailDestinations,
-          selectedIndex: screenIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              screenIndex = index;
-              handleScreenChanged(screenIndex);
-            });
-          },
-        ),
-        navigationBar: NavigationBar(
-          selectedIndex: screenIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              screenIndex = index;
-            });
-          },
-          destinations: appBarDestinations,
-        ),
-        appBar: createAppBar(),
-        body: createScreenFor(
-            ScreenSelected.values[screenIndex]),
-      );
-    });}
+    return NavigationTransition(
+      fab: _generateFAB(),
+      scaffoldKey: scaffoldKey,
+      navigationRail: NavigationRail(
+        extended: showLargeSizeLayout,
+        destinations: navRailDestinations,
+        selectedIndex: screenIndex,
+        leading: _generateFAB(),
+        trailing: Column(children: [
+          _BrightnessButton(
+            handleBrightnessChange: widget.handleBrightnessChange,
+          ),
+          _ColorSeedButton(
+            handleColorSelect: widget.handleColorSelect,
+            colorSelected: widget.colorSelected,
+          ),
+        ],),
+        onDestinationSelected: (index) {
+          setState(() {
+            screenIndex = index;
+            handleScreenChanged(screenIndex);
+          });
+        },
+      ),
+      navigationBar: NavigationBar(
+        selectedIndex: screenIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            screenIndex = index;
+          });
+        },
+        destinations: appBarDestinations,
+      ),
+      appBar: createAppBar(),
+      body: createScreenFor(ScreenSelected.values[screenIndex]),
+    );
+  }
 
+  FloatingActionButton _generateFAB() {
+    return FloatingActionButton(
+      onPressed: () {},
+      tooltip: '搜索功能',
+      isExtended: true,
+      child: const Icon(Icons.search),
+    );
+  }
 
   void handleScreenChanged(int screenSelected) {
     setState(() {
@@ -118,8 +114,8 @@ class _HomePageState extends State<HomePage>
 
   PreferredSizeWidget createAppBar() {
     return AppBar(
-      title: const Text('数字石大'),
-      actions: !showMediumSizeLayout && !showLargeSizeLayout
+      title: const Hero(tag: 'app_title', child: Text('i石大')),
+      actions: MediaQuery.of(context).size.width < narrowScreenWidthThreshold
           ? [
               _BrightnessButton(
                 handleBrightnessChange: widget.handleBrightnessChange,
@@ -133,13 +129,12 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget createScreenFor(
-      ScreenSelected screenSelected) {
+  Widget createScreenFor(ScreenSelected screenSelected) {
     switch (screenSelected) {
       case ScreenSelected.home:
         return const MainPage();
       case ScreenSelected.classes:
-        return const MainPage();
+        return const ClassPage();
       case ScreenSelected.affairs:
         return const AccountPage();
       case ScreenSelected.account:

@@ -38,3 +38,15 @@ enum ScreenSelected {
   const ScreenSelected(this.value);
   final int value;
 }
+
+//  本地存储Key
+enum StorageKey{
+  // 全局App相关
+  appContainerName('app'),  //容器名称
+  appColorScheme('app_color_scheme'),
+  appHasOpened('app_has_opened');
+
+
+  const StorageKey(this.value);
+  final String value;
+}

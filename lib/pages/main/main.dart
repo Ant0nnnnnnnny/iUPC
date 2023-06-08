@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:iupc/pages/login/view.dart';
-import 'package:get/get.dart';
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-  
+import 'package:iupc/widgets/schedule/view.dart';
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: ElevatedButton(onPressed: () => {
-          Get.to(()=>LoginPage())
-        }, child: Text('登录')),
-      ),
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Center(
+          child:SchedulePage(height: 240,),
+        )
+      ],
     );
   }
 }

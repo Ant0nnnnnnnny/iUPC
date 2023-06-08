@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iupc/global_state.dart';
 import 'package:get/get.dart';
 import 'package:iupc/pages/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 main() {
   runApp(const MyHomePage());
@@ -15,11 +16,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-
+  late SharedPreferences prefs;
   @override
   void initState() {
     super.initState();
-
   }
 
   // 切换夜间模式
@@ -33,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   // 切换主题
   void handleColorSelect(int value) {
     setState(() {
+      Get.find<GlobalState>().prefs.setString(StorageKey.appColorScheme.value,colorSelected.label);
       colorSelected = ColorSeed.values[value];
-     Get.find<GlobalState>().prefs.setString(StorageKey.appColorScheme.value,colorSelected.label);
     });
   }
   bool useMaterial3 = true;

@@ -28,13 +28,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool showMediumSizeLayout = false;
-  bool showLargeSizeLayout = false;
 
   int screenIndex = ScreenSelected.home.value;
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late final CurvedAnimation railAnimation;
 
   @override
   initState() {
@@ -43,11 +40,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('HOME: ${widget.colorSelected}');
     return NavigationTransition(
       fab: _generateFAB(),
       scaffoldKey: scaffoldKey,
       navigationRail: NavigationRail(
-        extended: showLargeSizeLayout,
         destinations: navRailDestinations,
         selectedIndex: screenIndex,
         leading: _generateFAB(),
@@ -179,6 +176,7 @@ class _ColorSeedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return PopupMenuButton(
       icon: Icon(
         Icons.palette_outlined,
@@ -188,25 +186,20 @@ class _ColorSeedButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       itemBuilder: (context) {
         return List.generate(ColorSeed.values.length, (index) {
-          ColorSeed currentColor = ColorSeed.values[index];
-
           return PopupMenuItem(
             value: index,
-            enabled: currentColor != colorSelected,
             child: Wrap(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Icon(
-                    currentColor == colorSelected
-                        ? Icons.color_lens
-                        : Icons.color_lens_outlined,
-                    color: currentColor.color,
+                   Icons.color_lens_outlined,
+                    color: ColorSeed.values[index].color,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: Text(currentColor.label),
+                  child: Text(ColorSeed.values[index].label),
                 ),
               ],
             ),

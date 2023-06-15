@@ -113,7 +113,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         body: SafeArea(
             child: Stack(
       children: [
-        Column(
+        Stack(
           children: [
             SlideTransition(
               position: _upMoveAnimation,
@@ -152,12 +152,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             const Spacer(
               flex: 3,
             ),
-            Hero(
-                tag: 'app_title',
-                child: Text(
-                  'i石大',
-                  style: Theme.of(context).textTheme.displayMedium,
-                )),
+            Text(
+              'i石大',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
             const Spacer(),
             SizeTransition(
               sizeFactor: _animation,

@@ -29,26 +29,34 @@ class _NavigationTransitionState extends State<NavigationTransition> {
   @override
   Widget build(BuildContext context) {
 
-    return   MediaQuery.of(context).size.width > narrowScreenWidthThreshold
-        ?Scaffold(
-      key: widget.scaffoldKey,
-      appBar: widget.appBar,
-      body: Row(
-        children: <Widget>[
-        widget.navigationRail,
-          widget.body,
-        ],
-      )
-    ):Scaffold(
+    return   checkIslandScape(context)
+        ?
+      Scaffold(
       floatingActionButton:widget.fab ,
       key: widget.scaffoldKey,
       appBar: widget.appBar,
-      body: Row(
-        children: <Widget>[
-          widget.body,
-        ],
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Row(
+          children: <Widget>[
+            widget.body,
+          ],
+        ),
       ),
       bottomNavigationBar: widget.navigationBar
+    ):Scaffold(key: widget.scaffoldKey,
+        appBar: widget.appBar,
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Row(
+            children: <Widget>[
+              widget.navigationRail,
+              widget.body,
+            ],
+          ),
+        )
     );
   }
 }

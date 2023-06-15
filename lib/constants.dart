@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 // NavigationRail shows if the screen width is greater or equal to
 // narrowScreenWidthThreshold; otherwise, NavigationBar is used for navigation.
-const double narrowScreenWidthThreshold = 450;
+const double narrowScreenHWRate = 1.2;
 
 const double mediumWidthBreakpoint = 1000;
 const double largeWidthBreakpoint = 1500;
@@ -31,8 +31,8 @@ enum ColorSeed {
 
 enum ScreenSelected {
   home(0),
-  classes(1),
-  affairs(2),
+  affairs(1),
+  classes(2),
   account(3);
 
   const ScreenSelected(this.value);
@@ -49,4 +49,9 @@ enum StorageKey{
 
   const StorageKey(this.value);
   final String value;
+}
+
+bool checkIslandScape(context){
+  debugPrint((MediaQuery.of(context).size.width/MediaQuery.of(context).size.height).toString());
+  return MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>narrowScreenHWRate;
 }

@@ -33,8 +33,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   // 切换主题
   void handleColorSelect(int value) {
     setState(() {
-      Get.find<GlobalState>().prefs.setString(StorageKey.appColorScheme.value,colorSelected.label);
       colorSelected = ColorSeed.values[value];
+      debugPrint('Change color storage.${colorSelected.label}');
+      Get.find<GlobalState>().prefs.setString(StorageKey.appColorScheme.value,colorSelected.label);
     });
   }
   bool useMaterial3 = true;

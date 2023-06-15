@@ -19,7 +19,7 @@ class SchedulePage extends StatelessWidget {
             children: [
               Container(
                 height: height,
-                width: height * 0.8,
+                width: height * 0.7,
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondaryContainer,
                     borderRadius: BorderRadius.only(
@@ -61,7 +61,7 @@ class SchedulePage extends StatelessWidget {
               ),
               SizedBox(
                 height: height,
-                width: height * 1,
+                width: height * 0.9,
                 child: Flex(
                   direction: Axis.vertical,
                   children: [
@@ -69,7 +69,7 @@ class SchedulePage extends StatelessWidget {
                     Flexible(
                       child: Container(
                         height: height,
-                        width: height * 1,
+                        width: height ,
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.tertiaryContainer,
                             borderRadius: BorderRadius.only(
@@ -105,6 +105,7 @@ class ClassBeside extends StatelessWidget {
   final ScheduleState state;
   final List<Widget> statusIconList = [
     Container(
+      padding: const EdgeInsets.all(5),
       decoration:
       const BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
       child: const Center(
@@ -115,7 +116,7 @@ class ClassBeside extends StatelessWidget {
       ),
     ),
     Container(
-      padding: const EdgeInsets.all(1),
+      padding: const EdgeInsets.all(5),
       decoration:
       const BoxDecoration(shape: BoxShape.circle, color: Colors.green),
       child: const Center(
@@ -126,6 +127,7 @@ class ClassBeside extends StatelessWidget {
       ),
     ),
     Container(
+      padding: const EdgeInsets.all(5),
       decoration:
       const BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
       child: const Center(
@@ -172,6 +174,7 @@ class ClassBeside extends StatelessWidget {
               ),
             ),
             Flexible(
+              flex: 2,
               child: Padding(
                 padding: status == 0
                     ? const EdgeInsets.only(right: 16)

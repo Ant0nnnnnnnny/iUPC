@@ -39,6 +39,7 @@ dependencies:
   flutter_qjs: ^0.3.7
   beautiful_soup_dart: ^0.3.0
   shared_preferences: ^2.1.2
+  expandable_text: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +69,7 @@ flutter:
      - assets/p2.png
      - assets/p3.png
      - assets/p4.png
-
+     - assets/class_default.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -45,18 +45,13 @@ class _HomePageState extends State<HomePage> {
       fab: _generateFAB(),
       scaffoldKey: scaffoldKey,
       navigationRail: NavigationRail(
+        groupAlignment: 0,
+        labelType: MediaQuery.of(context).size.width>1000?null:NavigationRailLabelType.selected,
         destinations: navRailDestinations,
         selectedIndex: screenIndex,
+        extended: MediaQuery.of(context).size.width>1000,
         leading: _generateFAB(),
-        trailing: Column(children: [
-          _BrightnessButton(
-            handleBrightnessChange: widget.handleBrightnessChange,
-          ),
-          _ColorSeedButton(
-            handleColorSelect: widget.handleColorSelect,
-            colorSelected: widget.colorSelected,
-          ),
-        ],),
+        trailing: IconButton(icon: const Icon(Icons.settings),onPressed: (){}),
         onDestinationSelected: (index) {
           setState(() {
             screenIndex = index;
@@ -65,6 +60,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       navigationBar: NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         selectedIndex: screenIndex,
         onDestinationSelected: (index) {
           setState(() {
@@ -110,9 +106,10 @@ class _HomePageState extends State<HomePage> {
       .toList();
 
   PreferredSizeWidget createAppBar() {
+    debugPrint((MediaQuery.of(context).size.height/MediaQuery.of(context).size.width).toString());
     return AppBar(
-      title: const Hero(tag: 'app_title', child: Text('i石大')),
-      actions: MediaQuery.of(context).size.width < narrowScreenWidthThreshold
+      title: const Text('i石大'),
+      actions:MediaQuery.of(context).size.height/MediaQuery.of(context).size.width > narrowScreenHWRate
           ? [
               _BrightnessButton(
                 handleBrightnessChange: widget.handleBrightnessChange,

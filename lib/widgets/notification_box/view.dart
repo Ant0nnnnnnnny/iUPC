@@ -5,7 +5,8 @@ import 'package:iupc/entities/notification_entity.dart';
 import 'logic.dart';
 
 class NotificationBox extends StatefulWidget {
-  const NotificationBox({Key? key}) : super(key: key);
+  final double width;
+  const NotificationBox({Key? key, required this.width}) : super(key: key);
 
   @override
   State<NotificationBox> createState() => _NotificationBoxState();
@@ -25,37 +26,30 @@ class _NotificationBoxState extends State<NotificationBox> {
   @override
   Widget build(BuildContext context) {
     state.informationList = state.informationList;
-    double height = 200 +
-        state.informationList.length * 20 +
-        state.pinnedInformationList.length * 20;
-    height = height > 450 ? 450  : height;
+    double height = 124 +
+        state.informationList.length * 54 +
+        state.pinnedInformationList.length * 54;
     debugPrint(height.toString());
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text('通知中心', style: Theme.of(context).textTheme.labelLarge),
+          child: Text('通知中心', style: Theme.of(context).textTheme.titleMedium),
         ),
         AnimatedContainer(
-          curve: Curves.elasticOut,
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 2),
-          width: 350,
+          curve: Curves.easeOutCirc,
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 2),
+          width: widget.width,
           height: height,
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: const BorderRadius.all(Radius.circular(16))),
           duration: const Duration(milliseconds: 400),
-          child: Flex(
-            direction: Axis.vertical,
+          child: Column(
             children: [
-              Flexible(
-                flex: 1 + state.pinnedInformationList.length,
-                child: _generatePinnedList(context),
-              ),
+              _generatePinnedList(context),
               const Divider(),
-              Flexible(
-                  flex: 1 + state.informationList.length,
-                  child: _generateNotificationItem(context)),
+              _generateNotificationItem(context),
               _endBar(context)
             ],
           ),
@@ -74,6 +68,8 @@ class _NotificationBoxState extends State<NotificationBox> {
     } else {
       return Center(
         child: AnimatedList(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             key: pinnedKey,
             initialItemCount: state.pinnedInformationList.length,
             itemBuilder:
@@ -94,6 +90,8 @@ class _NotificationBoxState extends State<NotificationBox> {
       ));
     } else {
       return AnimatedList(
+          physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
           key: key,
           initialItemCount: state.informationList.length,
           itemBuilder:
@@ -111,8 +109,8 @@ class _NotificationBoxState extends State<NotificationBox> {
             Tween<Offset>(begin: const Offset(0, -1), end: const Offset(0, 0))
                 .animate(CurvedAnimation(
                     parent: animation,
-                    curve: Curves.decelerate,
-                    reverseCurve: Curves.decelerate)),
+                    curve: Curves.easeOutCirc,
+                    reverseCurve: Curves.easeOutCirc)),
         child: pinnedItem(it, index, context));
   }
 
@@ -123,8 +121,8 @@ class _NotificationBoxState extends State<NotificationBox> {
             Tween<Offset>(begin: const Offset(-1, 0), end: const Offset(0, 0))
                 .animate(CurvedAnimation(
                     parent: animation,
-                    curve: Curves.decelerate,
-                    reverseCurve: Curves.decelerate)),
+                    curve: Curves.easeOutCirc,
+                    reverseCurve: Curves.easeOutCirc)),
         child: inkWell(it, index, context));
   }
 
@@ -275,8 +273,8 @@ class _NotificationBoxState extends State<NotificationBox> {
             icon: const Icon(Icons.more_horiz)),
         const Expanded(child: Text('')),
         AnimatedSwitcher(
-          switchInCurve: Curves.easeIn,
-          switchOutCurve: Curves.easeOut,
+          switchInCurve: Curves.easeInCirc,
+          switchOutCurve: Curves.easeOutCirc,
           transitionBuilder: (child, anim) {
             return ScaleTransition(
               scale: anim,

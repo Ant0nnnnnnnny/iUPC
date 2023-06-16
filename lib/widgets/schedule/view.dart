@@ -78,7 +78,7 @@ class _SchedulePageState extends State<SchedulePage> {
                               children: [
                                 AnimatedContainer(
                                     duration: const Duration(milliseconds: 400),
-                                    curve: Curves.easeInCirc,
+                                    curve: Curves.easeOutCirc,
                                     width: widget.width,
                                     height: (isExpanded
                                         ? expandedHeight

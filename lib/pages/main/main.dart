@@ -46,54 +46,57 @@ class _MainPageState extends State<MainPage> {
               ],
             ),
           )
-        : Row(
-          children: [
-            SizedBox(
-              width: 300,
-              child: ListView(
-                shrinkWrap: true,
-                children: const [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SchedulePage(
-                        width: 300,
-                      ),
-                      NotificationBox(
-                        width: 300,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 100,
-                  ),
-                ],
-              ),
-            ),
-            const VerticalDivider(),
-            SizedBox(
-              width: screenWidth,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  SizedBox(
-                    width: screenWidth,
-                    child: Column(
+        : Expanded(
+          child: Flex(
+            mainAxisAlignment: MainAxisAlignment.center,
+            direction: Axis.horizontal,
+            children: [
+              Flexible(
+                flex: 1,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: const [
+                    Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        FrequentFunctionPage(
-                          width: 250,
+                        SchedulePage(
+                          width: 300,
+                        ),
+                        NotificationBox(
+                          width: 300,
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  ),
-                ],
+                    SizedBox(
+                      height: 100,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              const VerticalDivider(),
+              Flexible(
+                flex: 1,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: Column(
+                        children: [
+                          FrequentFunctionPage(
+                            width: 250,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
   }
 }

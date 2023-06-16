@@ -110,7 +110,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                 .animate(CurvedAnimation(
                     parent: animation,
                     curve: Curves.easeOutCirc,
-                    reverseCurve: Curves.easeOutCirc)),
+                    reverseCurve: Curves.easeInCirc)),
         child: pinnedItem(it, index, context));
   }
 
@@ -121,7 +121,7 @@ class _NotificationBoxState extends State<NotificationBox> {
             Tween<Offset>(begin: const Offset(-1, 0), end: const Offset(0, 0))
                 .animate(CurvedAnimation(
                     parent: animation,
-                    curve: Curves.easeOutCirc,
+                    curve: Curves.easeInCirc,
                     reverseCurve: Curves.easeOutCirc)),
         child: inkWell(it, index, context));
   }
@@ -273,8 +273,8 @@ class _NotificationBoxState extends State<NotificationBox> {
             icon: const Icon(Icons.more_horiz)),
         const Expanded(child: Text('')),
         AnimatedSwitcher(
-          switchInCurve: Curves.easeInCirc,
-          switchOutCurve: Curves.easeOutCirc,
+          switchInCurve: Curves.easeOutCirc,
+          switchOutCurve: Curves.easeInCirc,
           transitionBuilder: (child, anim) {
             return ScaleTransition(
               scale: anim,

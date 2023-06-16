@@ -58,7 +58,7 @@ class _ClassPageState extends State<ClassPage> {
                     return _classCard(context, state.allClasses[index]);
                   },
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: MediaQuery.of(context).size.width>1000?4: checkIslandScape(context)?2:3,
+                  crossAxisCount: (MediaQuery.of(context).size.width/238).round(),
                     mainAxisExtent: 265
                   ),
                 ),

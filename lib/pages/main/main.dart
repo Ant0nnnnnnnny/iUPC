@@ -15,31 +15,85 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    final double screenWidth =
-    checkIslandScape(context)
-            ? MediaQuery.of(context).size.width
-            : MediaQuery.of(context).size.width/2;
-    return Expanded(
-      child: ListView(
-        children: [
-          SizedBox(
-            width: screenWidth,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+    debugPrint('Width:${MediaQuery.of(context).size.width}');
+    final double screenWidth = checkIslandScape(context)
+        ? MediaQuery.of(context).size.width
+        : MediaQuery.of(context).size.width*0.45;
+    return checkIslandScape(context)
+        ? Expanded(
+            child: ListView(
               children: [
-                SchedulePage(
-                  height: 246,
+                SizedBox(
+                  width: screenWidth,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SchedulePage(
+                        width: 350,
+                      ),
+                      const NotificationBox(
+                        width: 350,
+                      ),
+                      FrequentFunctionPage(
+                        width: 350,
+                      ),
+                    ],
+                  ),
                 ),
-                const Expanded(child: Text('')),
-                FrequentFunctionPage(
-                  width: 162,
+                const SizedBox(
+                  height: 100,
                 ),
               ],
             ),
-          ),const NotificationBox(),
-          const SizedBox(height: 100,),
-        ],
-      ),
-    );
+          )
+        : Row(
+          children: [
+            SizedBox(
+              width: 300,
+              child: ListView(
+                shrinkWrap: true,
+                children: const [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SchedulePage(
+                        width: 300,
+                      ),
+                      NotificationBox(
+                        width: 300,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                ],
+              ),
+            ),
+            const VerticalDivider(),
+            SizedBox(
+              width: screenWidth,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  SizedBox(
+                    width: screenWidth,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FrequentFunctionPage(
+                          width: 250,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
   }
 }

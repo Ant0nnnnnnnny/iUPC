@@ -13,9 +13,8 @@ class HttpUtils {
   // 登录请求用的sessionId
   late String sessionId = '';
   // 登录请求用的cookie
-  late String cookie = '';
-  late String keyDcpV6;
-
+  late String affairSystemCookie = '';
+  late String hotServicesCookie = '';
   ///TODO: Finish other request url.
   static const String postLoginUrl = 'http://cas.upc.edu.cn/cas/login';
   static const String getClassInfo = '/xx/xx';
@@ -73,14 +72,14 @@ class HttpUtils {
   }
 
   static Future<void> updateCookie() async {
-    var response = await _instance._dio.get(getLTUrl);
-    _instance.sessionId = response.headers.map['set-cookie']!.length>=2?response.headers.map['set-cookie']![1]: _instance.sessionId;
-    response.headers.map['set-cookie']?.forEach((element) {
-      _instance.cookie += "${_instance.cookie};$element";
-    });
-    _instance._baseOptions.headers['cookie'] =  _instance.cookie;
-    debugPrint("cookie:${_instance.cookie}");
-    debugPrint("sessionId:${_instance.sessionId}");
+    // var response = await _instance._dio.get(getLTUrl);
+    // _instance.sessionId = response.headers.map['set-cookie']!.length>=2?response.headers.map['set-cookie']![1]: _instance.sessionId;
+    // response.headers.map['set-cookie']?.forEach((element) {
+    //   _instance.cookie += "${_instance.cookie};$element";
+    // });
+    // _instance._baseOptions.headers['cookie'] =  _instance.cookie;
+    // debugPrint("cookie:${_instance.cookie}");
+    // debugPrint("sessionId:${_instance.sessionId}");
   }
 
   static void handleError(int statusCode) {

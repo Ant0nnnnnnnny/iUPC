@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iupc/pages/class_information/view.dart';
 
+import '../../constants.dart';
 import '../../entities/class_entity.dart';
 import 'logic.dart';
 
@@ -56,9 +57,9 @@ class _ClassPageState extends State<ClassPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return _classCard(context, state.allClasses[index]);
                   },
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    childAspectRatio: 0.78,
-                    maxCrossAxisExtent: 204,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).size.width>1000?4: checkIslandScape(context)?2:3,
+                    mainAxisExtent: 265
                   ),
                 ),
               )
@@ -72,6 +73,7 @@ class _ClassPageState extends State<ClassPage> {
   Widget _classCard(context, ClassEntity classObj) {
     return Container(
       width: 204,
+      height: 256,
       padding: const EdgeInsets.all(8.0),
       child: Card(
         child: Column(
@@ -191,7 +193,7 @@ class _ClassPageState extends State<ClassPage> {
                         Get.to(() =>  const ClassInformationPage(),
                             arguments: [classObj,'antony']);
                       },
-                      child: const Text('进入')),
+                      child: const Text('进入'),),
                   const Expanded(child: Text('')),
                   PopupMenuButton(
                     itemBuilder: (context) {

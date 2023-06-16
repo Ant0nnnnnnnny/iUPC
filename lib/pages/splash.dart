@@ -59,8 +59,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         AnimationController(vsync: this, duration: const Duration(seconds: 5));
 
     _upMoveAnimation = Tween<Offset>(
-      begin: Offset(Random().nextDouble(), Random().nextDouble()),
-      end: Offset(Random().nextDouble(), Random().nextDouble()),
+      begin: Offset(Random().nextDouble()*1.2, Random().nextDouble()*1.2),
+      end: Offset(Random().nextDouble()*2, Random().nextDouble()*2),
     ).animate(
       CurvedAnimation(
         parent: _midController,
@@ -68,8 +68,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       ),
     );
     _midMoveAnimation = Tween<Offset>(
-      begin: Offset(Random().nextDouble(), Random().nextDouble()),
-      end: Offset(Random().nextDouble(), Random().nextDouble()),
+      begin: Offset(Random().nextDouble()*1.2, Random().nextDouble()*1.2),
+      end: Offset(Random().nextDouble()*2, Random().nextDouble()*2),
     ).animate(
 
       CurvedAnimation(
@@ -78,8 +78,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       ),
     );
     _downMoveAnimation = Tween<Offset>(
-      begin: Offset(Random().nextDouble(), Random().nextDouble()),
-      end: Offset(Random().nextDouble(), Random().nextDouble()),
+      begin: Offset(Random().nextDouble()*1.2, Random().nextDouble()*1.2),
+      end: Offset(Random().nextDouble()*2, Random().nextDouble()*2),
     ).animate(
       CurvedAnimation(
         parent: _upController,
@@ -113,37 +113,39 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         body: SafeArea(
             child: Stack(
       children: [
-        Stack(
-          children: [
-            SlideTransition(
-              position: _upMoveAnimation,
-              child: Container(
-                width: 256,
-                height: 256,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(256)),
+        Center(
+          child: Stack(
+            children: [
+              SlideTransition(
+                position: _upMoveAnimation,
+                child: Container(
+                  width: 256,
+                  height: 256,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(256)),
+                ),
+              ), SlideTransition(
+                position: _downMoveAnimation,
+                child: Container(
+                  width: 256,
+                  height: 256,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.tertiaryContainer,
+                      borderRadius: BorderRadius.circular(256)),
+                ),
+              ),SlideTransition(
+                position: _midMoveAnimation,
+                child: Container(
+                  width: 256,
+                  height: 256,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.errorContainer,
+                      borderRadius: BorderRadius.circular(256)),
+                ),
               ),
-            ), SlideTransition(
-              position: _downMoveAnimation,
-              child: Container(
-                width: 256,
-                height: 256,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiaryContainer,
-                    borderRadius: BorderRadius.circular(256)),
-              ),
-            ),SlideTransition(
-              position: _midMoveAnimation,
-              child: Container(
-                width: 256,
-                height: 256,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(256)),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
         Center(
             child: Column(
@@ -154,7 +156,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             ),
             Text(
               'i石大',
-              style: Theme.of(context).textTheme.displayMedium,
+              style: Theme.of(context).textTheme.displayLarge,
             ),
             const Spacer(),
             SizeTransition(
@@ -163,7 +165,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
               axisAlignment: -1,
               child: Text(
                 '校园生活得力助手',
-                style: Theme.of(context).textTheme.labelMedium,
+                style: Theme.of(context).textTheme.displaySmall,
               ),
             ),
             const Spacer(

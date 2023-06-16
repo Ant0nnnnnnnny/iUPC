@@ -70,7 +70,7 @@ class ClassInformationPage extends StatelessWidget {
                             maxLines: 5, expandText: '展开',
                             collapseText: '收起',
                             animationDuration: const Duration(milliseconds: 400),
-                            animationCurve: Curves.easeOut,
+                            animationCurve: Curves.easeOutCirc,
                           ),
                         ),
                       ),

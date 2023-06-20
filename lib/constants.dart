@@ -44,7 +44,15 @@ enum StorageKey{
   // 全局App相关
   appContainerName('app'),  //容器名称
   appColorScheme('app_color_scheme'),
-  appHasOpened('app_has_opened');
+  appHasOpened('app_has_opened'),
+
+
+  userHasLogin('user_has_login'),
+  userName('user_name'),
+  userPassword('user_password'),
+  userAccount('user_account'),
+  userDormitoryPosition('user_dormitory_position'),
+  userAirConditionerPosition('user_air_conditioner_position');
 
 
   const StorageKey(this.value);

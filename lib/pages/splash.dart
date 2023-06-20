@@ -186,7 +186,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     HttpUtils.updateCookie();
 
     // 延时一下，等待异步加载操作完成
-    Future.delayed(const Duration(milliseconds: 500),(){
+    Future.delayed(const Duration(milliseconds: 1000),(){
       prefs = Get.put(GlobalState()).prefs;
       // 初始化存储变量
       debugPrint('Initialize theme...');
@@ -198,6 +198,18 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         debugPrint('Create theme storage');
         prefs.setString(StorageKey.appColorScheme.value,widget.colorSelected.label);
       }
+      
+      
+      //判断是否已经登录过
+      if(!prefs.containsKey(StorageKey.userHasLogin.value)){
+        Get.find<GlobalState>().user.loginState = false;
+      }
+      //若已登录，读取保存的登录信息
+
+      else{
+
+      }
+
 
       //判断是否已经打开过App
 

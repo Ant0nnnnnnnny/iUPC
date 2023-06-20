@@ -26,9 +26,9 @@ class _NotificationBoxState extends State<NotificationBox> {
   @override
   Widget build(BuildContext context) {
     state.informationList = state.informationList;
-    double height = 124 +
-        state.informationList.length * 54 +
-        state.pinnedInformationList.length * 54;
+    double height = 128 +
+        state.informationList.length * 56 +
+        state.pinnedInformationList.length * 56;
     debugPrint(height.toString());
     return Column(
       children: [

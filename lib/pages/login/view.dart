@@ -233,7 +233,7 @@ class LoginPage extends StatelessWidget {
                                       );
                                     },
                                     duration:
-                                        const Duration(milliseconds: 150),
+                                        const Duration(milliseconds: 400),
                                     child: SizedBox(
                                         width: 22,
                                         height: 22,
